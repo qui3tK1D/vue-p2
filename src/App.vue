@@ -1,7 +1,13 @@
 <template>
   <CardTitle :header="title" />
   <ul>
-    <JobList v-for="{ id, job } in lists" :key="id" :job="job" />
+    <JobList
+      v-for="list in lists"
+      :key="list.id"
+      :list="list"
+      @delList="delList"
+      @updateList="updateList"
+    />
   </ul>
 </template>
 
@@ -29,6 +35,17 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    delList(id) {
+      this.lists = this.lists.filter((cur) => cur.id !== id);
+    },
+    updateList(updateList, newJob) {
+      const updatedListIndex = this.lists.findIndex(
+        (cur) => cur.id === updateList.id
+      );
+      this.lists[updatedListIndex].job = newJob;
+    },
   },
 };
 </script>
